@@ -370,11 +370,14 @@ def STREAM_QUALITY_SELECT(m3u8_url):
             i = 0
             for stream in stream_title:
                 stream = stream.partition("x")[0]
-                print stream
+                print stream                
                 print stream[1:]
-                if int(stream[1:]) > temp_qlty:
-                    temp_qlty = int(stream[1:])
-                    ret = i
+                try:
+                    if int(stream[1:]) > temp_qlty:
+                        temp_qlty = int(stream[1:])
+                        ret = i
+                except:
+                    pass
                 i=i+1
         else:            
             dialog = xbmcgui.Dialog() 
@@ -382,7 +385,7 @@ def STREAM_QUALITY_SELECT(m3u8_url):
         
         if ret >=0:
             listitem = xbmcgui.ListItem(path=stream_url[ret])
-            xbmcplugin.setResolvedUrl(addon_handle, True, listitem)
+            xbmcplugin.setResolvedUrl(addon_handle, True, listitem)              
         else:
             sys.exit()
     else:

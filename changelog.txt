@@ -1,4 +1,7 @@
 v2015.10.21
+- Bug fix
+
+v2015.10.21
 - Get all feeds from event
 
 v2015.10.2
