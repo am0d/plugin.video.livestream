@@ -338,8 +338,12 @@ def getStream(owner_id,event_id,video_id):
             req.add_header('User-Agent', UA_IPHONE)              
             response = urllib2.urlopen(req)      
             json_source = json.load(response)
-            response.close()            
-            streamQualitySelect(json_source['stream_info']['m3u8_url'])
+            response.close()    
+            m3u8_url = json_source['stream_info']['m3u8_url']        
+            xbmc.log('getStream: original stream_url={}'.format(m3u8_url), xbmc.LOGNOTICE)
+            m3u8_url = re.sub(r"\bdw=\d+\b", "dw=7200", m3u8_url)
+            xbmc.log('getStream: stream_url={}'.format(m3u8_url), xbmc.LOGNOTICE)
+            streamQualitySelect(m3u8_url)
         else:
             url = API_URL+'/accounts/'+owner_id+'/events/'+event_id+'/videos/'+video_id            
             req = urllib2.Request(url)
@@ -392,46 +396,21 @@ def getStreamQuality(m3u8_url):
                     desc = "Audio"
     except:
         pass
+    xbmc.log('getStreamQuality: stream_url={}'.format(stream_url))
 
 
     return stream_url, stream_title
     
 
     
-def streamQualitySelect(m3u8_url):        
-    stream_url, stream_title = getStreamQuality(m3u8_url)    
-    stream_title.sort(key=natural_sort_key, reverse=True)
-
-    if len(stream_title) > 0:
-        ret = 0
-        if AUTO_PLAY == 'true':            
-            temp_qlty = 0
-            i = 0
-            for stream in stream_title:
-                stream = stream.partition("x")[0]                
-                try:
-                    if int(stream[1:]) > temp_qlty:
-                        temp_qlty = int(stream[1:])
-                        ret = i
-                except:
-                    pass
-                    
-                i=i+1
-        else:            
-            dialog = xbmcgui.Dialog() 
-            ret = dialog.select('Choose Stream Quality', stream_title)
-        
-        if ret >=0:
-            url = stream_url.get(stream_title[ret])             
-            listitem = xbmcgui.ListItem(path=url)
-            xbmcplugin.setResolvedUrl(addon_handle, True, listitem)
-        else:
-            sys.exit()
-    else:
-        msg = "No playable streams found."
-        dialog = xbmcgui.Dialog() 
-        ok = dialog.ok('Streams Not Found', msg)
-
+def streamQualitySelect(m3u8_url):                    
+    listitem = xbmcgui.ListItem(path=m3u8_url)
+    listitem.setProperty('inputstreamaddon', 'inputstream.adaptive')
+    listitem.setProperty('inputstream.adaptive.manifest_type', 'hls')
+    listitem.setProperty('inputstream.adaptive.play_timeshift_buffer', 'true')
+    xbmc.log('streamQualitySelect: m3u8_url={}'.format(m3u8_url), xbmc.LOGNOTICE)
+   
+    xbmcplugin.setResolvedUrl(addon_handle, True, listitem)
 
 
 def natural_sort_key(s):
@@ -671,6 +650,12 @@ def addStream(name,link_url,title,iconimage,fanart=None,event_id=None,owner_id=N
     liz.setInfo( type="Video", infoLabels={ "Title": title } )
     if info != None:
         liz.setInfo( type="Video", infoLabels=info) 
+    liz.setProperty('inputstreamaddon', 'inputstream.adaptive')
+    liz.setProperty('inputstream.adaptive.manifest_type', 'hls')
+    liz.setProperty('inputstream.adaptive.play_timeshift_buffer', 'true')
+    # liz.setMimeType('application/dash+xml')
+    # liz.setPath(u)
+    liz.setContentLookup(False)
     ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=False)
     xbmcplugin.setContent(addon_handle, 'episodes')
     
