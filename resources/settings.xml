@@ -5,4 +5,7 @@
     <setting id="username" type="text" label="30140" default=""/>
     <setting id="password" type="text" label="30150" option="hidden" default=""/>
   </category>
+  <category label="31000">
+    <setting id="playback_window" type="number" label="31010" default="3600"/>
+  </category>
 </settings>

@@ -27,3 +27,11 @@ msgstr ""
 msgctxt "#30150"
 msgid "Password"
 msgstr ""
+
+msgctxt "#31000"
+msgid "Playback"
+msgstr ""
+
+msgctxt "#31010"
+msgid "Playback window"
+msgstr ""

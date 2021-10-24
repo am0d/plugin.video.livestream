@@ -20,7 +20,7 @@ APP_ID = '7KJECL120U'
 #Settings
 USERNAME = str(xbmcaddon.Addon().getSetting(id="username"))
 PASSWORD = str(xbmcaddon.Addon().getSetting(id="password"))
-AUTO_PLAY = str(xbmcaddon.Addon().getSetting(id="auto_play"))
+PLAYBACK_WINDOW = str(xbmcaddon.Addon().getSetting(id="playback_window"))
 
 #Localisation
 local_string = xbmcaddon.Addon().getLocalizedString
@@ -361,28 +361,29 @@ def getStream(owner_id,event_id,video_id):
     else:     
         if video_id == 'LIVE':
             url = API_URL+'/accounts/'+owner_id+'/events/'+event_id
-            # req = urllib2.Request(url)
-            # req.add_header('User-Agent', UA_IPHONE)
-            # response = urllib2.urlopen(req)
-            # json_source = json.load(response)
-            # response.close()
             r = requests.get(url, headers={'User-Agent': UA_IPHONE}, verify=VERIFY)
-            # streamQualitySelect(r.json()['stream_info']['m3u8_url'])
-            url = r.json()['stream_info']['m3u8_url'] + "|User-Agent="+UA_IPHONE
+            url = adjust_playback_url(r.json()['stream_info']['m3u8_url']) + "|User-Agent="+UA_IPHONE
             listitem = xbmcgui.ListItem(path=url)
+            listitem.setProperty('inputstream', 'inputstream.adaptive')
+            listitem.setProperty('inputstream.adaptive.manifest_type', 'hls')
+            listitem.setProperty('inputstream.adaptive.play_timeshift_buffer', 'true')
             xbmcplugin.setResolvedUrl(addon_handle, True, listitem)
         else:
             url = API_URL+'/accounts/'+owner_id+'/events/'+event_id+'/videos/'+video_id            
-            # req = urllib2.Request(url)
-            # req.add_header('User-Agent', UA_IPHONE)
-            # response = urllib2.urlopen(req)
-            # json_source = json.load(response)
-            # response.close()
             r = requests.get(url, headers={'User-Agent': UA_IPHONE}, verify=VERIFY)
-            # streamQualitySelect(r.json()['m3u8_url'])
-            stream_url = r.json()['m3u8_url'] + "|User-Agent="+UA_IPHONE
+            stream_url = adjust_playback_url(r.json()['m3u8_url']) + "|User-Agent="+UA_IPHONE
             listitem = xbmcgui.ListItem(path=stream_url)
+            listitem.setProperty('inputstream', 'inputstream.adaptive')
+            listitem.setProperty('inputstream.adaptive.manifest_type', 'hls')
+            listitem.setProperty('inputstream.adaptive.play_timeshift_buffer', 'true')
             xbmcplugin.setResolvedUrl(addon_handle, True, listitem)
+
+
+def adjust_playback_url(url):
+    xbmc.log('getStream: original stream_url={}'.format(url), xbmc.LOGDEBUG)
+    url = re.sub(r"\bdw=\d+\b", "dw="+PLAYBACK_WINDOW, url)
+    xbmc.log('getStream: stream_url={}'.format(url), xbmc.LOGDEBUG)
+    return url
 
 
 
