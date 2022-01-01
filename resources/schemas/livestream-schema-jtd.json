@@ -1,0 +1,306 @@
+{
+    "ref": "account",
+    "definitions": {
+        "event": {
+            "properties": {
+                "activity_disabled": {
+                    "type": "boolean"
+                },
+                "background_attachment": {},
+                "background_color": {
+                    "nullable": true,
+                    "type": "string"
+                },
+                "background_image": {},
+                "background_position": {},
+                "background_repeat": {},
+                "broadcast_id": {
+                    "type": "int8"
+                },
+                "created_at": {
+                    "type": "timestamp"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "draft": {
+                    "type": "boolean"
+                },
+                "embed_restriction": {
+                    "type": "string"
+                },
+                "embed_restriction_blacklist": {},
+                "embed_restriction_whitelist": {
+                    "elements": {
+                        "type": "string"
+                    }
+                },
+                "end_time": {
+                    "type": "timestamp"
+                },
+                "expires_at": {},
+                "feed": {},
+                "full_name": {
+                    "type": "string"
+                },
+                "guest_chat_enabled": {
+                    "type": "boolean"
+                },
+                "id": {
+                    "type": "uint32"
+                },
+                "in_progress": {
+                    "type": "boolean"
+                },
+                "is_donations_enabled": {},
+                "is_embed_white_labeled": {
+                    "type": "boolean"
+                },
+                "is_embeddable": {
+                    "type": "boolean"
+                },
+                "is_likable": {
+                    "type": "boolean"
+                },
+                "is_password_protected": {
+                    "type": "boolean"
+                },
+                "is_public": {
+                    "type": "boolean"
+                },
+                "is_searchable": {
+                    "type": "boolean"
+                },
+                "is_white_labeled": {
+                    "type": "boolean"
+                },
+                "lat": {
+                    "type": "float64"
+                },
+                "likes": {
+                    "properties": {
+                        "data": {
+                            "elements": {}
+                        },
+                        "total": {
+                            "type": "uint8"
+                        }
+                    }
+                },
+                "links": {},
+                "live_chat_enabled": {
+                    "type": "boolean"
+                },
+                "live_video_post_id": {
+                    "type": "uint32"
+                },
+                "lng": {
+                    "type": "float64"
+                },
+                "logo": {
+                    "ref": "image"
+                },
+                "owner": {
+                    "ref": "account"
+                },
+                "owner_account_id": {
+                    "type": "uint32"
+                },
+                "post_comments_enabled": {
+                    "type": "boolean"
+                },
+                "post_count": {},
+                "privacy_freeze": {
+                    "type": "boolean"
+                },
+                "real_time": {},
+                "short_name": {
+                    "type": "string"
+                },
+                "start_time": {
+                    "type": "timestamp"
+                },
+                "stream_info": {},
+                "tags": {},
+                "updated_at": {
+                    "type": "timestamp"
+                },
+                "video_count": {},
+                "viewer_count": {
+                    "type": "uint8"
+                },
+                "viewer_count_visible": {
+                    "type": "boolean"
+                },
+                "views_count": {
+                    "type": "uint8"
+                }
+            },
+            "additionalProperties": true
+        },
+        "account": {
+            "properties": {
+                "background_attachment": {
+                    "type": "string"
+                },
+                "background_color": {
+                    "type": "string"
+                },
+                "background_image": {
+                    "ref": "image"
+                },
+                "background_position": {
+                    "type": "string"
+                },
+                "background_repeat": {
+                    "type": "string"
+                },
+                "category": {
+                    "type": "uint8"
+                },
+                "category_name": {},
+                "created_at": {
+                    "type": "timestamp"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "followers": {
+                    "properties": {
+                        "data": {
+                            "elements": {
+                                "ref": "account"
+                            }
+                        },
+                        "total": {
+                            "type": "uint16"
+                        }
+                    }
+                },
+                "following": {
+                    "properties": {
+                        "data": {
+                            "elements": {
+                                "ref": "account"
+                            }
+                        },
+                        "total": {
+                            "type": "uint8"
+                        }
+                    }
+                },
+                "full_name": {
+                    "type": "string"
+                },
+                "google_analytics_id": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "uint32"
+                },
+                "is_beta_producer": {
+                    "type": "boolean"
+                },
+                "is_locked": {
+                    "type": "boolean"
+                },
+                "is_public": {
+                    "type": "boolean"
+                },
+                "is_searchable": {
+                    "type": "boolean"
+                },
+                "links": {
+                    "elements": {
+                        "properties": {
+                            "title": {
+                                "type": "string"
+                            },
+                            "url": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "mixpanel_id": {
+                    "type": "string"
+                },
+                "past_events": {
+                    "properties": {
+                        "data": {
+                            "elements": {
+                                "ref": "event"
+                            }
+                        },
+                        "total": {
+                            "type": "uint16"
+                        }
+                    }
+                },
+                "picture": {
+                    "ref": "image"
+                },
+                "plan_id": {
+                    "type": "uint8"
+                },
+                "private": {
+                    "type": "boolean"
+                },
+                "short_name": {
+                    "type": "string"
+                },
+                "signup_action": {
+                    "type": "string"
+                },
+                "signup_page": {
+                    "type": "string"
+                },
+                "timezone": {
+                    "type": "string"
+                },
+                "upcoming_events": {
+                    "properties": {
+                        "data": {
+                            "elements": {
+                                "ref": "event"
+                            }
+                        },
+                        "total": {
+                            "type": "uint16"
+                        }
+                    }
+                }
+            },
+            "additionalProperties": true
+        },
+        "image": {
+            "properties": {
+                "height": {
+                    "type": "uint16"
+                },
+                "medium_url": {},
+                "original_height": {
+                    "type": "uint16"
+                },
+                "original_width": {
+                    "type": "uint16"
+                },
+                "secure_medium_url": {},
+                "secure_small_url": {
+                    "type": "string"
+                },
+                "secure_thumb_url": {},
+                "small_url": {
+                    "type": "string"
+                },
+                "thumb_url": {},
+                "url": {
+                    "type": "string"
+                },
+                "width": {
+                    "type": "uint16"
+                }
+            }
+        }
+    }
+}
